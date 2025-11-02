@@ -11,6 +11,8 @@ const navItems = [
 ];
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const base = 'transition hover:text-blue-400';
   const active = 'text-blue-400 font-semibold';
 
@@ -39,7 +41,34 @@ const Navbar = () => {
             ))}
           </div>
         </div>
+
+        {/* Mobile Toggle Button */}
+        <div className="flex items-center gap-4 md:hidden">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="cursor-pointer text-xl text-blue-400"
+            title="Menu"
+          >
+            {menuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Nav */}
+      {menuOpen && (
+        <div className="space-y-2 space-x-4 border-t border-gray-700 bg-gray-800 px-6 py-4 text-center md:hidden">
+          {navItems.map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) => (isActive ? active : base)}
+              onClick={() => setMenuOpen(false)}
+            >
+              {label}
+            </NavLink>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };
